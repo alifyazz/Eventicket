@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemesanan Tiket Event | EventTicket</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: #f7fafd;
+        }
+        .navbar {
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+        .navbar-brand {
+            font-weight: 700;
+            color: #039be5 !important;
+            letter-spacing: 1px;
+        }
+        .search-bar {
+            width: 350px;
+            max-width: 100%;
+        }
+        .hero-section {
+            background: linear-gradient(120deg, #1e90ff 60%, #00c6ff 100%);
+            color: #fff;
+            padding: 60px 0 40px 0;
+            text-align: center;
+            position: relative;
+        }
+        .hero-section h1 {
+            font-weight: 700;
+            font-size: 2.7rem;
+            margin-bottom: 0.7rem;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(90deg, #1e90ff 60%, #00c6ff 100%);
+            border: none;
+            font-weight: 600;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 4px 16px rgba(30,144,255,0.2);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .event-card {
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(30,144,255,0.07);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: #fff;
+            position: relative;
+        }
+        .event-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(30,144,255,0.15);
+        }
+        .event-card .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .event-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: #ffb300;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .event-promo {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: #e53935;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .event-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #222;
+        }
+        .event-meta {
+            font-size: 0.95rem;
+            color: #888;
+        }
+        .event-price {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #039be5;
+        }
+        .event-rating {
+            color: #ffb300;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        .event-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .btn-book {
+            background: linear-gradient(90deg, #1e90ff 60%, #00c6ff 100%);
+            border: none;
+            font-weight: 600;
+            color: #fff;
+            border-radius: 8px;
+            padding: 8px 24px;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .btn-book:hover {
+            background: #039be5;
+            box-shadow: 0 4px 16px rgba(30,144,255,0.12);
+        }
+        .about-section {
+            background: linear-gradient(90deg, #e0eafc 0%, #cfdef3 100%);
+            border-radius: 18px;
+            padding: 2rem 1.5rem;
+            margin-top: 2rem;
+        }
+        .footer {
+            background: linear-gradient(90deg, #1e90ff 60%, #00c6ff 100%);
+            color: #fff;
+            padding: 2rem 0 1rem 0;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            margin-top: 3rem;
+        }
+        .footer h5 {
+            font-weight: 700;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: underline;
+        }
+        @media (max-width: 767px) {
+            .hero-section h1 {
+                font-size: 1.5rem;
+            }
+            .event-card .card-img-top {
+                height: 120px;
+            }
+            .search-bar {
+                width: 100%;
+            }
+        }
+        .user-dropdown { position: relative; display: inline-block; }
+        .user-menu { display: none; position: absolute; right: 0; top: 120%; background: #fff; min-width: 180px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); border-radius: 12px; z-index: 100; padding: 0.5rem 0; }
+        .user-dropdown.open .user-menu { display: block; }
+        .user-menu a, .user-menu button { display: flex; align-items: center; gap: 10px; padding: 10px 18px; color: #222; text-decoration: none; background: none; border: none; width: 100%; text-align: left; font-size: 1rem; cursor: pointer; }
+        .user-menu a:hover, .user-menu button:hover { background: #f4f6fb; }
+        .user-avatar { background: #ffd600; color: #222; font-weight: bold; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-right: 10px; }
+        .user-name { font-weight: 600; cursor: pointer; }
+        .user-box { display: flex; align-items: center; background: #fff; border-radius: 14px; padding: 7px 18px; cursor: pointer; position: relative; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: background 0.2s; }
+        .user-box:hover, .user-dropdown.open { background: #f4f6fb; }
+        .user-avatar-img { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: #0a4fa3; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-right: 10px; border: 3px solid #ffd600; }
+        .avatar-img { width: 100%; height: 100%; object-fit: cover; }
+        .user-info { display: flex; flex-direction: column; justify-content: center; }
+        .user-name { color: #0a4fa3; font-weight: 700; font-size: 1.2rem; }
+        .user-menu { display: none; position: absolute; right: 0; top: 120%; background: #fff; min-width: 180px; box-shadow: 0 4px 24px rgba(0,0,0,0.12); border-radius: 12px; z-index: 100; padding: 0.5rem 0; }
+        .user-box.open .user-menu { display: block; }
+        .user-menu a, .user-menu button { display: flex; align-items: center; gap: 10px; padding: 10px 18px; color: #222; text-decoration: none; background: none; border: none; width: 100%; text-align: left; font-size: 1rem; cursor: pointer; }
+        .user-menu a:hover, .user-menu button:hover { background: #f4f6fb; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">EventTicket</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#events">Event</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">Tentang</a>
+                    </li>
+                </ul>
+                <form class="d-flex search-bar" onsubmit="event.preventDefault(); searchEvents();">
+                    <input class="form-control me-2" type="search" placeholder="Cari event seru..." id="searchInput" oninput="onSearchInput()">
+                    <button class="btn btn-primary me-2" type="button" onclick="searchEvents()"><i class="bi bi-search"></i></button>
+                    <button class="btn btn-outline-secondary" type="button" id="clearSearchBtn" style="display:none" onclick="clearSearch()"><i class="bi bi-x-lg"></i></button>
+                </form>
+                <div class="ms-3 d-flex align-items-center position-relative" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+                    <div sec:authorize="isAuthenticated()" class="user-box" id="userDropdown" onclick="toggleUserMenu()" style="background:#fff;">
+                        <div class="user-avatar-img me-2" style="background:#fff; border:3px solid #ffd600; color:#0a4fa3; display:flex; align-items:center; justify-content:center; font-size:1.3rem; font-weight:700;">
+                            [[${#authentication.name.substring(0,1).toUpperCase()}]]
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name" style="color:#0a4fa3; font-weight:700; font-size:1.2rem;">[[${#authentication.name}]]</div>
+                        </div>
+                        <div class="user-menu" id="userMenu">
+                            <a href="#"><span class="bi bi-person"></span> Akun saya</a>
+                            <a href="/my-bookings.html"><span class="bi bi-briefcase"></span> Pemesanan & Trip</a>
+                            <form th:action="@{/logout}" method="post" style="margin:0;">
+                                <button type="submit"><span class="bi bi-box-arrow-right"></span> Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div sec:authorize="isAnonymous()">
+                        <a href="/login" class="btn btn-outline-primary ms-2">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Event Paling Seru</h1>
+            <p>Ayo beli tiketnya sebelum kehabisan! Temukan dan pesan tiket event, workshop, atau seminar favoritmu di sini.</p>
+            <a href="#events" class="btn btn-primary btn-lg shadow">Lihat Event</a>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-4 fw-bold text-primary">Event Terpopuler</h2>
+            <div class="row g-4" id="eventsContainer">
+                <!-- Event cards will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="text-center mb-4 fw-bold text-primary">Tentang Kami</h2>
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <p class="fs-5">EventTicket hadir untuk memberikan pengalaman pemesanan tiket event yang mudah, cepat, dan aman. Temukan berbagai event menarik, workshop, seminar, dan festival favoritmu di satu tempat!</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="fs-5">Dengan tampilan modern dan sistem pemesanan yang terintegrasi, kamu bisa booking tiket event dengan nyaman, seperti pengalaman di Traveloka. Nikmati kemudahan pencarian, promo menarik, dan layanan pelanggan terbaik.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h5>EventTicket</h5>
+                    <p>Solusi pemesanan tiket event, workshop, dan seminar terbaik untukmu.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Kontak Kami</h5>
+                    <p>Email: <a href="mailto:info@eventticket.com">info@eventticket.com</a><br>Telepon: (021) 123-4567</p>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <small>&copy; 2024 EventTicket. All rights reserved.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Helper: generate random rating for demo
+        function getRandomRating() {
+            return (Math.random() * 2 + 8).toFixed(1); // 8.0 - 10.0
+        }
+        // Format Rupiah
+        function formatRupiah(angka) {
+            return 'Rp ' + Number(angka).toLocaleString('id-ID');
+        }
+        // Load events when page loads
+        document.addEventListener('DOMContentLoaded', loadEvents);
+        async function loadEvents() {
+            try {
+                const response = await fetch('/api/events/upcoming');
+                const events = await response.json();
+                displayEvents(events);
+            } catch (error) {
+                console.error('Error loading events:', error);
+            }
+        }
+        function displayEvents(events) {
+            const container = document.getElementById('eventsContainer');
+            if (!events.length) {
+                container.innerHTML = '<div class="col-12 text-center text-muted">Belum ada event tersedia.</div>';
+                return;
+            }
+            container.innerHTML = events.map(event => {
+                const rating = getRandomRating();
+                const promo = event.promoLabel;
+                return `
+                <div class="col-12 col-md-6 col-lg-4 d-flex">
+                    <div class="card event-card w-100 position-relative animate__animated animate__fadeInUp">
+                        <span class="event-badge">Event</span>
+                        ${promo ? `<span class='event-promo'>${promo}</span>` : ''}
+                        <img src="${event.imageUrl || 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80'}" class="card-img-top" alt="${event.title}">
+                        <div class="card-body d-flex flex-column">
+                            <div>
+                                <div class="event-title mb-1">${event.title}</div>
+                                <div class="event-meta mb-2">
+                                    <i class="bi bi-calendar-event"></i> ${new Date(event.eventDate).toLocaleDateString('id-ID')}<br>
+                                    <i class="bi bi-geo-alt"></i> ${event.venue}
+                                </div>
+                                <div class="mb-2">${event.description.substring(0, 80)}${event.description.length > 80 ? '...' : ''}</div>
+                                <div class="event-rating mb-2">
+                                    <i class="bi bi-star-fill"></i> ${rating}/10
+                                </div>
+                            </div>
+                            <div class="event-footer pt-2">
+                                <span class="event-price">${formatRupiah(event.ticketPrice)}</span>
+                                <button class="btn btn-book" onclick="bookTicket(${event.id})">Pesan Tiket</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+        let lastKeyword = '';
+        function onSearchInput() {
+            const input = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (input.value.trim() !== '') {
+                clearBtn.style.display = '';
+            } else {
+                clearBtn.style.display = 'none';
+                if (lastKeyword !== '') {
+                    loadEvents();
+                    lastKeyword = '';
+                }
+            }
+        }
+        async function searchEvents() {
+            const keyword = document.getElementById('searchInput').value.trim();
+            if (!keyword) {
+                loadEvents();
+                return;
+            }
+            lastKeyword = keyword;
+            try {
+                const response = await fetch(`/api/events/search?keyword=${encodeURIComponent(keyword)}`);
+                const events = await response.json();
+                displayEvents(events);
+            } catch (error) {
+                console.error('Error searching events:', error);
+            }
+        }
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('clearSearchBtn').style.display = 'none';
+            loadEvents();
+            lastKeyword = '';
+        }
+        // User dropdown
+        function toggleUserMenu() {
+            document.getElementById('userDropdown').classList.toggle('open');
+        }
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+        // Pesan Tiket: cek login
+        function bookTicket(eventId) {
+            /*<![CDATA[*/
+            var isLoggedIn = [[${#authorization.expression('isAuthenticated()')}]];
+            /*]]>*/
+            if (!isLoggedIn) {
+                window.location.href = '/login';
+            } else {
+                window.location.href = `/booking.html?eventId=${eventId}`;
+            }
+        }
+    </script>
+</body>
+</html> 
