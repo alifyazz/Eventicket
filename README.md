@@ -1,4 +1,4 @@
-# Even Ticket
+# Event Ticket
 
 Eventicket adalah aplikasi web untuk pemesanan tiket acara (event ticketing) yang dirancang untuk memudahkan pengguna dalam menemukan, memilih, dan membeli tiket event secara online. Aplikasi ini mendukung skenario pengguna terdaftar maupun guest, serta menyediakan antarmuka sederhana untuk admin mengelola event.
 
@@ -20,7 +20,7 @@ Eventicket adalah aplikasi web untuk pemesanan tiket acara (event ticketing) yan
 
 ## Teknologi yang Digunakan
 
-* **Backend**: Java 11+, Spring Boot (atau Java Servlets)
+* **Backend**: Java 11+, Spring Boot
 * **Frontend**: HTML5, CSS3, JavaScript
 * **Build Tool**: Maven
 
